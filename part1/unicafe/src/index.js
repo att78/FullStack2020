@@ -4,37 +4,34 @@ import ReactDOM from 'react-dom'
 
 const Statistics = (props) => {
   console.log(props)
-  if(props.good+props.neutral+props.bad===0){
-    return(
-    <div>
-      <p></p>
+  if (props.good + props.neutral + props.bad === 0) {
+    return (
+      <div>
+        <p></p>
       No feedback given
-    </div>
+      </div>
     )
-  }else{
+  } else {
+    return (
+      <div> <h2>statistics</h2>
+        <p></p>
+        
+          <StatisticLine text="good " value={props.good} symbol =""/>
+          <StatisticLine text="neutral " value={props.neutral} symbol =""/>
+          <StatisticLine text="bad " value={props.bad} symbol ="" />
+          <StatisticLine text="all " value={props.good + props.neutral + props.bad} symbol =""/>
+          <StatisticLine text="average " value={(props.good - props.bad) / (props.good + props.neutral + props.bad)} symbol =""/>
+          <StatisticLine text="positive " value={(100 * (props.good + props.neutral)) / (props.good + props.neutral + props.bad)} symbol =" %" />
+
+      </div>
+    )
+  }
+}
 
 
-
+const StatisticLine = (props) => {
   return (
-    <div> <h2>statistics</h2>
-      <p></p>
-      <table><tbody>
-        <Stat text="good " value={props.good} />
-        <Stat text="neutral " value={props.neutral} />
-        <Stat text="bad " value={props.bad} />
-        <Stat text="all " value={props.good + props.neutral + props.bad} />
-        <Stat text="average " value={(props.good - props.bad) / (props.good + props.neutral + props.bad)} />
-        <td><Stat text="positive " value={(100 * (props.good + props.neutral)) / (props.good + props.neutral + props.bad)} /></td><td>%</td>
-      </tbody>
-      </table>
-    </div>
-  )
-}}
-
-
-function Stat(props) {
-  return (
-    <tr><td>{props.text} </td><td>{props.value}</td></tr>
+  <div>{props.text} {props.value}{props.symbol}</div>
   )
 }
 
