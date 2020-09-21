@@ -5,18 +5,21 @@ import ReactDOM from 'react-dom'
 const Statistics = (props) => {
   console.log(props)
 
-    return (
-      <div> <h2>statistics</h2>
-        <p></p>
-        <table><tbody>
-          <Stat text="good " value={props.good} />
-          <Stat text="neutral " value={props.neutral} />
-          <Stat text="bad " value={props.bad} />
-        </tbody>
-        </table>
-      </div>
-    )
-  }
+  return (
+    <div> <h2>statistics</h2>
+      <p></p>
+      <table><tbody>
+        <Stat text="good " value={props.good} />
+        <Stat text="neutral " value={props.neutral} />
+        <Stat text="bad " value={props.bad} />
+        <Stat text="all " value={props.good + props.neutral + props.bad} />
+        <Stat text="average " value={(props.good - props.bad) / (props.good + props.neutral + props.bad)} />
+        <td><Stat text="positive " value={(100 * (props.good + props.neutral)) / (props.good + props.neutral + props.bad)} /></td><td>%</td>
+      </tbody>
+      </table>
+    </div>
+  )
+}
 
 
 function Stat(props) {
