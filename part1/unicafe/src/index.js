@@ -4,6 +4,16 @@ import ReactDOM from 'react-dom'
 
 const Statistics = (props) => {
   console.log(props)
+  if(props.good+props.neutral+props.bad===0){
+    return(
+    <div>
+      <p></p>
+      No feedback given
+    </div>
+    )
+  }else{
+
+
 
   return (
     <div> <h2>statistics</h2>
@@ -19,7 +29,7 @@ const Statistics = (props) => {
       </table>
     </div>
   )
-}
+}}
 
 
 function Stat(props) {
