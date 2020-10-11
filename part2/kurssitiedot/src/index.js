@@ -8,7 +8,7 @@ const Header = ({ name }) => {
   )
 }
 
-//esimerkki map funktion käytöstä
+//esimerkki map funktion
 const Content = ({ parts }) => {
   const answer = () => parts.map(part =>
     <Part key={part.id} part={part} />
@@ -17,6 +17,15 @@ const Content = ({ parts }) => {
     <div>
       {answer()}
     </div>)
+}
+
+
+const Part = ({ part }) => {
+  return (
+    <p>
+      {part.name} {part.exercises}
+    </p>
+  )
 }
 
 // esimerkki reduce funktion käytöstä
@@ -32,13 +41,6 @@ function Total({ parts }) {
 }
 
 
-const Part = ({ part }) => {
-  return (
-    <p>
-      {part.name} {part.exercises}
-    </p>
-  )
-}
 
 
 
