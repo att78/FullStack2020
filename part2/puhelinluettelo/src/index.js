@@ -2,15 +2,20 @@ import React, { useState } from 'react'
 import ReactDOM from 'react-dom';
 import ContactForm from './components/ContactForm'
 import ContactList from './components/ContactList'
+import Filter from './components/Filter'
 
 
 const App = () => {
     const [persons, setPersons] = useState([
-        { name: 'Arto Hellas', number: '040-123456' }])
+        { name: 'Arto Hellas', number: '040-123456' },
+        { name: 'Ada Lovelace', number: '39-44-5323523' },
+        { name: 'Dan Abramov', number: '12-43-234345' },
+        { name: 'Mary Poppendieck', number: '39-23-6423122' }])
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
+    const [newFilter, setNewFilter] = useState('')
 
-
+    const shownContacts = persons.filter(person => person.name.toLowerCase().includes(newFilter.toLowerCase()))
 
     const addNewContact = (event) => {
         event.preventDefault()
@@ -28,6 +33,11 @@ const App = () => {
         setNewNumber('')
     }
 
+    const handleFilterChange = (event) => {
+        setNewFilter(event.target.value)
+
+    }
+
     const handleNameChange = (event) => {
         setNewName(event.target.value)
     }
@@ -42,6 +52,12 @@ const App = () => {
         <div>
             <h2>Phonebook</h2>
 
+
+            <Filter newFilter={newFilter}
+                handleFilterChange={handleFilterChange} />
+
+
+
             <h3>Add new contact:</h3>
             <ContactForm addNewContact={addNewContact}
                 newName={newName}
@@ -51,7 +67,7 @@ const App = () => {
             />
 
             <h2>Numbers</h2>
-            <ContactList persons={persons} />
+            <ContactList persons={shownContacts} />
 
         </div>
     )
