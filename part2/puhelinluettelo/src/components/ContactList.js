@@ -5,7 +5,7 @@ const ContactList = ({ persons }) => {
 
     const list = persons
 
-    const contacts = () => list.map(person => <Person key={person.name} name={person.name} />)
+    const contacts = () => list.map(person => <Person key={person.name} name={person.name} number={person.number} />)
 
     return (
         <div>

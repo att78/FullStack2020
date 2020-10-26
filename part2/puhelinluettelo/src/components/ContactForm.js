@@ -6,7 +6,10 @@ const ContactForm = (props) => {
 
         <form onSubmit={props.addNewContact}>
             <div>
-                nimi: <input value={props.newName} onChange={props.handleNameChange} />
+                name: <input value={props.newName} onChange={props.handleNameChange} />
+            </div>
+            <div>
+                number: <input value={props.newNumber} onChange={props.handleNumberChange} />
             </div>
 
             <div>

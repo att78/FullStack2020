@@ -6,8 +6,9 @@ import ContactList from './components/ContactList'
 
 const App = () => {
     const [persons, setPersons] = useState([
-        { name: 'Arto Hellas' }])
+        { name: 'Arto Hellas', number: '040-123456' }])
     const [newName, setNewName] = useState('')
+    const [newNumber, setNewNumber] = useState('')
 
 
 
@@ -17,16 +18,22 @@ const App = () => {
         if (persons.every(person => person.name !== newName)) {
             const PersonObject = {
                 name: newName,
+                number: newNumber,
             }
             setPersons(persons.concat(PersonObject))
         } else {
             window.alert(`${newName} is already added to phonebook`)
         }
         setNewName('')
+        setNewNumber('')
     }
 
     const handleNameChange = (event) => {
         setNewName(event.target.value)
+    }
+
+    const handleNumberChange = (event) => {
+        setNewNumber(event.target.value)
     }
 
 
@@ -38,7 +45,9 @@ const App = () => {
             <h3>Add new contact:</h3>
             <ContactForm addNewContact={addNewContact}
                 newName={newName}
+                newNumber={newNumber}
                 handleNameChange={handleNameChange}
+                handleNumberChange={handleNumberChange}
             />
 
             <h2>Numbers</h2>
