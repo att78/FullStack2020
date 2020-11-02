@@ -65,6 +65,24 @@ const App = () => {
         setNewNumber(event.target.value)
     }
 
+    const handleErase = (person) => {
+        const contactName = person.name
+        if (window.confirm(`Should ${newName} be erased from the phonebook?`)) {
+            eraseContact(person)
+        }
+    }
+
+
+    const eraseContact = (person) => {
+        personService.erase(person.id)
+            .then(response => {
+                const updatedContacts = persons.filter(contact => contact.id !== person.id)
+                setPersons(updatedContacts)
+            })
+
+    }
+
+
 
 
     return (
@@ -86,7 +104,7 @@ const App = () => {
             />
 
             <h2>Numbers</h2>
-            <ContactList persons={shownContacts} />
+            <ContactList persons={shownContacts} handleErase={handleErase} />
 
         </div>
     )

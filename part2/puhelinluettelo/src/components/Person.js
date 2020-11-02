@@ -1,10 +1,14 @@
 import React from 'react'
 
-const Person = ({ name, number }) => {
+const Person = (props) => {
     return (
-        <div>
-            <p>  {name} {number} </p>
-        </div>
+        <li>
+            {props.name} {props.number}
+            <button onClick={() => props.handleErase(props.person)}>
+                Erase
+            </button>
+
+        </li>
     )
 }
 

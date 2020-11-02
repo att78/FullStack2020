@@ -14,9 +14,14 @@ const update = (id, newObject) => {
     return request.then(response => response.data)
 }
 
+const erase = (id) => {
+
+    return axios.delete(`${baseUrl}/${id}`)
+}
 
 export default {
     getAll: getAll,
     create: create,
-    update: update
+    update: update,
+    erase: erase
 }
