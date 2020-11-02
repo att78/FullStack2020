@@ -12,6 +12,35 @@ const App = () => {
     const [newFilter, setNewFilter] = useState('')
 
 
+    const addNewContact = (event) => {
+        event.preventDefault()
+
+        if (persons.every(person => person.name !== newName)) {
+            const PersonObject = {
+                name: newName,
+                number: newNumber,
+            }
+            // setPersons(persons.concat(PersonObject))
+            axios
+                .post('http://localhost:3001/persons', PersonObject)
+                .then(response => {
+                    setPersons(persons.concat(response.data))
+                    setNewName('')
+                    setNewNumber('')
+                })
+
+
+
+        } else {
+            window.alert(`${newName} is already added to phonebook`)
+        }
+
+
+        //        setNewName('')
+        //        setNewNumber('')
+    }
+
+
     const hook = () => {
         console.log('effect')
         axios.get('http://localhost:3001/persons')
@@ -24,23 +53,15 @@ const App = () => {
 
     useEffect(hook, [])
 
+
+
+
+
+
+
     const shownContacts = persons.filter(person => person.name.toLowerCase().includes(newFilter.toLowerCase()))
 
-    const addNewContact = (event) => {
-        event.preventDefault()
 
-        if (persons.every(person => person.name !== newName)) {
-            const PersonObject = {
-                name: newName,
-                number: newNumber,
-            }
-            setPersons(persons.concat(PersonObject))
-        } else {
-            window.alert(`${newName} is already added to phonebook`)
-        }
-        setNewName('')
-        setNewNumber('')
-    }
 
     const handleFilterChange = (event) => {
         setNewFilter(event.target.value)
