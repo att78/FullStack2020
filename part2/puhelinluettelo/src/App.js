@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+//import axios from 'axios'
 import ContactForm from './components/ContactForm'
 import ContactList from './components/ContactList'
 import Filter from './components/Filter'
+import personService from './services/persons'
 
 
 const App = () => {
@@ -21,42 +22,30 @@ const App = () => {
                 number: newNumber,
             }
             // setPersons(persons.concat(PersonObject))
-            axios
-                .post('http://localhost:3001/persons', PersonObject)
+
+            personService
+                .create(PersonObject)
+                //     axios
+                //         .post('http://localhost:3001/persons', PersonObject)
                 .then(response => {
                     setPersons(persons.concat(response.data))
                     setNewName('')
                     setNewNumber('')
                 })
 
-
-
         } else {
             window.alert(`${newName} is already added to phonebook`)
         }
-
-
         //        setNewName('')
         //        setNewNumber('')
     }
 
 
-    const hook = () => {
-        console.log('effect')
-        axios.get('http://localhost:3001/persons')
-            .then(response => {
-                console.log('promise fulfilled')
-                setPersons(response.data)
-            })
-
-    }
-
-    useEffect(hook, [])
-
-
-
-
-
+    useEffect(() => {
+        personService
+            .getAll()
+            .then(response => { setPersons(response.data) })
+    }, [])
 
 
     const shownContacts = persons.filter(person => person.name.toLowerCase().includes(newFilter.toLowerCase()))
