@@ -4,6 +4,8 @@ import ContactForm from './components/ContactForm'
 import ContactList from './components/ContactList'
 import Filter from './components/Filter'
 import personService from './services/persons'
+import Notification from './components/Notification'
+
 
 
 const App = () => {
@@ -11,7 +13,7 @@ const App = () => {
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
     const [newFilter, setNewFilter] = useState('')
-
+    const [notificationMessage, setNotificationMessage] = useState(null)
 
     const addNewContact = (event) => {
         event.preventDefault()
@@ -21,15 +23,16 @@ const App = () => {
                 name: newName,
                 number: newNumber,
             }
-            // setPersons(persons.concat(PersonObject))
+
             personService
                 .create(PersonObject)
-                //     axios
-                //         .post('http://localhost:3001/persons', PersonObject)
+
                 .then(response => {
                     setPersons(persons.concat(response.data))
                     setNewName('')
                     setNewNumber('')
+                    setNotificationMessage(`A new contact was added to phonebook.`)
+                    setTimeout(() => { setNotificationMessage(null) }, 5000)
                 })
 
         } else {
@@ -43,7 +46,8 @@ const App = () => {
                             .map(person => person.id !== updatedContact.id ? person : returnedContact))
                         setNewName('')
                         setNewNumber('')
-
+                        setNotificationMessage(`${returnedContact.name} has been changed`)
+                        setTimeout(() => { setNotificationMessage(null) }, 5000)
                     })
             }
 
@@ -79,10 +83,13 @@ const App = () => {
         setNewNumber(event.target.value)
     }
 
+
+
     const handleErase = (person) => {
         const contactName = person.name
         if (window.confirm(`Should ${contactName} be erased from the phonebook?`)) {
             eraseContact(person)
+
         }
     }
 
@@ -92,6 +99,8 @@ const App = () => {
             .then(response => {
                 const updatedContacts = persons.filter(contact => contact.id !== person.id)
                 setPersons(updatedContacts)
+                setNotificationMessage(`Contact was removed successfully.`)
+                setTimeout(() => { setNotificationMessage(null) }, 5000)
             })
 
     }
@@ -102,7 +111,7 @@ const App = () => {
     return (
         <div>
             <h2>Phonebook</h2>
-
+            <Notification message={notificationMessage} />
 
             <Filter newFilter={newFilter}
                 handleFilterChange={handleFilterChange} />
