@@ -22,7 +22,6 @@ const App = () => {
                 number: newNumber,
             }
             // setPersons(persons.concat(PersonObject))
-
             personService
                 .create(PersonObject)
                 //     axios
@@ -34,11 +33,24 @@ const App = () => {
                 })
 
         } else {
-            window.alert(`${newName} is already added to phonebook`)
+            if (window.confirm(`${newName} is already added to phonebook, would you like to change the number`)) {
+                console.log('Change number')
+                const updatedContact = persons.find(a => a.name === newName)
+                updatedContact.number = newNumber
+                personService.update(updatedContact)
+                    .then(returnedContact => {
+                        setPersons(persons
+                            .map(person => person.id !== updatedContact.id ? person : returnedContact))
+                        setNewName('')
+                        setNewNumber('')
+
+                    })
+            }
+
+
         }
-        //        setNewName('')
-        //        setNewNumber('')
     }
+
 
 
     useEffect(() => {
@@ -46,6 +58,8 @@ const App = () => {
             .getAll()
             .then(response => { setPersons(response.data) })
     }, [])
+
+
 
 
     const shownContacts = persons.filter(person => person.name.toLowerCase().includes(newFilter.toLowerCase()))
@@ -67,7 +81,7 @@ const App = () => {
 
     const handleErase = (person) => {
         const contactName = person.name
-        if (window.confirm(`Should ${newName} be erased from the phonebook?`)) {
+        if (window.confirm(`Should ${contactName} be erased from the phonebook?`)) {
             eraseContact(person)
         }
     }
