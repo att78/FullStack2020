@@ -34,6 +34,11 @@ const App = () => {
                     setNotificationMessage(`A new contact was added to phonebook.`)
                     setTimeout(() => { setNotificationMessage(null) }, 5000)
                 })
+                .catch(error => {
+                    console.log(error.response.data);
+                    setNotificationMessage(`Adding a new contact failed. Please make sure, that name is at least 3 chars and number is at least 8 numbers long.`)
+                    setTimeout(() => setNotificationMessage(null), 5000)
+                })
 
         } else {
             if (window.confirm(`${newName} is already added to phonebook, would you like to change the number`)) {
