@@ -35,7 +35,7 @@ describe('totalLikes', () => {
 describe('Favourite blog text', () => {
 
   test('Favourite out of 5', () => {
-    const result = listHelper.mostLikedBlog(blogs_5)
+    const result = listHelper.favouriteBlog(blogs_5)
     expect(result).toEqual({
       _id: "5a422b3a1b54a676234d17f9",
       title: "Canonical string reduction",
@@ -48,8 +48,41 @@ describe('Favourite blog text', () => {
 
   test('No blogs on the list', () => {
     const blogs = []
-    const result = listHelper.mostLikedBlog(blogs)
+    const result = listHelper.favouriteBlog(blogs)
     expect(result).toEqual({})
   })
 
-})  
+})
+
+describe('Author, who has written largest amount of blogs', () => {
+  test('No blogs on the list', () => {
+    const blogs = []
+    const result = listHelper.mostBlogs(blogs)
+    expect(result).toEqual({})
+  })
+
+  test('Most written out of 5', () => {
+    const result = listHelper.mostBlogs(blogs_5)
+    expect(result).toEqual({
+      author: "Robert C. Martin",
+      blogs: 3
+    })
+  })
+})
+
+describe('Most liked author', () => {
+  test('No blogs on the list', () => {
+    const blogs = []
+    const result = listHelper.mostLikes(blogs)
+    expect(result).toEqual({})
+  })
+  test('Most written out of 5', () => {
+    const result = listHelper.mostLikes(blogs_5)
+    expect(result).toEqual({
+      author: "Edsger W. Dijkstra",
+      likes: 17
+    })
+  })
+
+
+})
