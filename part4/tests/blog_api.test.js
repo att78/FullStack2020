@@ -103,6 +103,23 @@ test('if blog has no title, it cannot be added', async () => {
 })
 
 
+test('deletion of a blog succeeds with status code 204 if id is valid', async () => {
+  const blogs_at_start = await helper.blogs_in_db()
+  const blog_to_delete = blogs_at_start[0]
+
+
+  await api
+    .delete(`/api/blogs/${blog_to_delete.id}`)
+    .expect(204)
+
+  const blogs_at_end = await helper.blogs_in_db()
+  expect(blogs_at_end).toHaveLength(helper.initial_blogs.length - 1)
+
+  const titles = blogs_at_end.map(r => r.title)
+  const authors = blogs_at_end.map(r => r.author)
+  expect(titles).not.toContain(blog_to_delete.title)
+  expect(authors).not.toContain(blog_to_delete.author)
+})
 
 
 afterAll(() => {
