@@ -52,6 +52,26 @@ test('Blog can be added to blogs', async () => {
   expect(authors).toContain('Elf')
 })
 
+test('If blog has no likes, likes is set to zero', async () => {
+  const add_blog = {
+    author: 'Elf and the cat',
+    title: 'Christmas Night',
+    url: 'www.yle.fi'
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(add_blog)
+
+
+
+
+  const blogs = await helper.blogs_in_db()
+  expect(blogs[blogs.length - 1].likes).toBe(0)
+
+
+})
+
 
 afterAll(() => {
   mongoose.connection.close()
