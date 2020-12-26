@@ -22,24 +22,26 @@ blogsRouter.delete('/:id', async (request, response) => {
 
 })
 
-/*
-blogsRouter.post('/', (request, response, next) => {
-  const body = request.body
 
-  const blog = new Blog({
-    author: body.author,
-    title: body.title,
-    likes: body.likes,
-    url: body.url
-  })
+blogsRouter.put('/:id', async (request, response) => {
 
-  blog.save()
-    .then(savedBlog => {
-      response.json(savedBlog.toJSON())
-    })
-    .catch(error => next(error))
+  const blog = {
+    author: request.body.author,
+    title: request.body.title,
+    likes: request.body.likes,
+    url: request.body.url
+  }
+  const updated_blog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
+  response.json(updated_blog.toJSON())
+  /*
+    blog.save()
+      .then(savedBlog => {
+        response.json(savedBlog.toJSON())
+      })
+      .catch(error => next(error))
+      */
 })
-*/
+
 
 blogsRouter.post('/', async (request, response) => {
   const blog = new Blog(request.body)

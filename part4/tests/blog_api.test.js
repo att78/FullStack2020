@@ -121,6 +121,34 @@ test('deletion of a blog succeeds with status code 204 if id is valid', async ()
   expect(authors).not.toContain(blog_to_delete.author)
 })
 
+test('updating of a blog succeeds with valid info', async () => {
+  const blogs_at_start = await helper.blogs_in_db()
+  const blog_to_update = blogs_at_start[0]
+
+  const updated_blog = {
+    author: 'Two Elves',
+    title: 'Christmas Day',
+    likes: 10,
+    url: 'www.yle.fi'
+  }
+  console.log('likes: ' + updated_blog.likes)
+
+  const sent_blog = await api
+    .put(`/api/blogs/${blog_to_update.id}`)
+    .send(updated_blog)
+    .expect(200)
+
+  const blogs_at_end = await helper.blogs_in_db()
+  expect(blogs_at_end).toHaveLength(helper.initial_blogs.length)
+
+  const titles = blogs_at_end.map(r => r.title)
+  const authors = blogs_at_end.map(r => r.author)
+
+  expect(titles).toContain(updated_blog.title)
+  expect(authors).toContain(updated_blog.author)
+
+})
+
 
 afterAll(() => {
   mongoose.connection.close()
