@@ -31,6 +31,26 @@ test('Blog has identification field "id" ', async () => {
   expect(first_blog.id).toBeDefined()
 })
 
+test('Blog can be added to blogs', async () => {
+
+  const add_blog = {
+    author: 'Elf',
+    title: 'Christmas Evening',
+    likes: 10,
+    url: 'www.yle.fi'
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(add_blog)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  const response = await api.get('/api/blogs')
+  const authors = response.body.map(b => b.author)
+  expect(response.body).toHaveLength(helper.initial_blogs.length + 1)
+  expect(authors).toContain('Elf')
+})
 
 
 afterAll(() => {
