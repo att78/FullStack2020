@@ -62,15 +62,47 @@ test('If blog has no likes, likes is set to zero', async () => {
   await api
     .post('/api/blogs')
     .send(add_blog)
-
-
-
+    .expect(200)
 
   const blogs = await helper.blogs_in_db()
   expect(blogs[blogs.length - 1].likes).toBe(0)
+})
 
+test('if blog has no url, it cannot be added', async () => {
+  const add_blog = {
+    author: 'Elf',
+    title: 'Christmas Evening',
+    likes: 10
+
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(add_blog)
+    .expect(400)
+
+  const blogs = await helper.blogs_in_db()
+  expect(blogs).toHaveLength(helper.initial_blogs.length)
 
 })
+
+test('if blog has no title, it cannot be added', async () => {
+  const add_blog = {
+    author: 'Elf',
+    likes: 10,
+    url: 'www.yle.fi'
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(add_blog)
+    .expect(400)
+
+  const blogs = await helper.blogs_in_db()
+  expect(blogs).toHaveLength(helper.initial_blogs.length)
+})
+
+
 
 
 afterAll(() => {
