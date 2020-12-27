@@ -5,10 +5,21 @@ const app = require('../app')
 const api = supertest(app)
 const helper = require('./test_helper')
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 beforeEach(async () => {
   await Blog.deleteMany({})
+  await User.deleteMany({})
   await Blog.insertMany(helper.initial_blogs)
+  await User.insertMany(helper.initial_users)
+
+  const blogs = await helper.blogs_in_db()
+  const user = await helper.one_user()
+
+  user.blogs = blogs.map(blog => blog._id)
+  user.save()
+  await Blog.updateMany({}, { $set: { user: user._id } })
+
 })
 
 test('all blogs are returned as json', async () => {
@@ -39,9 +50,10 @@ test('Blog can be added to blogs', async () => {
     likes: 10,
     url: 'www.yle.fi'
   }
-
+  const token = await helper.get_token()
   await api
     .post('/api/blogs')
+    .set('Authorization', `Bearer ${token}`)
     .send(add_blog)
     .expect(200)
     .expect('Content-Type', /application\/json/)
@@ -58,9 +70,11 @@ test('If blog has no likes, likes is set to zero', async () => {
     title: 'Christmas Night',
     url: 'www.yle.fi'
   }
+  const token = await helper.get_token()
 
   await api
     .post('/api/blogs')
+    .set('Authorization', `Bearer ${token}`)
     .send(add_blog)
     .expect(200)
 
@@ -75,9 +89,10 @@ test('if blog has no url, it cannot be added', async () => {
     likes: 10
 
   }
-
+  const token = await helper.get_token()
   await api
     .post('/api/blogs')
+    .set('Authorization', `Bearer ${token}`)
     .send(add_blog)
     .expect(400)
 
@@ -92,9 +107,10 @@ test('if blog has no title, it cannot be added', async () => {
     likes: 10,
     url: 'www.yle.fi'
   }
-
+  const token = await helper.get_token()
   await api
     .post('/api/blogs')
+    .set('Authorization', `Bearer ${token}`)
     .send(add_blog)
     .expect(400)
 

@@ -68,9 +68,10 @@ blogsRouter.post('/', async (request, response) => {
   }
 
   const user = await User.findById(decodedToken.id)
+  let likes = request.body.likes
 
   if (request.body.likes === undefined) {
-    blog.likes = 0
+    likes = 0
   }
 
   if (request.body.url === undefined || request.body.title === undefined) {
@@ -80,7 +81,7 @@ blogsRouter.post('/', async (request, response) => {
     const blog = new Blog({
       author: body.author,
       title: body.title,
-      likes: body.likes,
+      likes: likes,
       url: body.url,
       user: user._id
     })

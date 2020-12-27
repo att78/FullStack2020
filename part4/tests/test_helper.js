@@ -1,5 +1,7 @@
 const Blog = require('../models/blog')
 const User = require('../models/user')
+const jwt = require('jsonwebtoken')
+const config = require('../utils/config')
 
 const initial_blogs = [
   { _id: "5a422a851b54a676234d17f7", title: "React patterns", author: "Michael Chan", url: "https://reactpatterns.com/", likes: 7, __v: 0 },
@@ -20,10 +22,34 @@ const users_in_db = async () => {
   return users.map(u => u.toJSON())
 }
 
+const initial_users = [
+  {
+    username: 'Selma',
+    name: 'Selma',
+    passwordHash: '5fe88ac489b16c3ad849c8a6'
+  }
+]
+
+const one_user = async () => {
+  return await User.findOne({ username: 'Selma' })
+}
+
+const get_token = async () => {
+  const user = await one_user()
+  return jwt.sign(
+    {
+      username: user.username,
+      id: user.id
+    }, config.SECRET)
+}
+
 
 module.exports =
 {
   initial_blogs,
+  initial_users,
+  one_user,
   blogs_in_db,
-  users_in_db
+  users_in_db,
+  get_token
 }
