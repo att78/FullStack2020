@@ -131,8 +131,9 @@ test('updating of a blog succeeds with valid info', async () => {
     likes: 10,
     url: 'www.yle.fi'
   }
+  /*
   console.log('likes: ' + updated_blog.likes)
-
+  */
   const sent_blog = await api
     .put(`/api/blogs/${blog_to_update.id}`)
     .send(updated_blog)

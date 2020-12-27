@@ -1,5 +1,5 @@
 const Blog = require('../models/blog')
-
+const User = require('../models/user')
 
 const initial_blogs = [
   { _id: "5a422a851b54a676234d17f7", title: "React patterns", author: "Michael Chan", url: "https://reactpatterns.com/", likes: 7, __v: 0 },
@@ -15,4 +15,15 @@ const blogs_in_db = async () => {
   return blogs.map(blog => blog.toJSON())
 }
 
-module.exports = { initial_blogs, blogs_in_db }
+const users_in_db = async () => {
+  const users = await User.find({})
+  return users.map(u => u.toJSON())
+}
+
+
+module.exports =
+{
+  initial_blogs,
+  blogs_in_db,
+  users_in_db
+}
