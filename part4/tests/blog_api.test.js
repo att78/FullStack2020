@@ -118,6 +118,25 @@ test('if blog has no title, it cannot be added', async () => {
   expect(blogs).toHaveLength(helper.initial_blogs.length)
 })
 
+test('if no token, blog cannot be added', async () => {
+  const add_blog = {
+    author: 'Monday Elf',
+    title: 'Monday after Christmas',
+    likes: 10,
+    url: 'www.yle.fi'
+  }
+  await api
+    .post('/api/blogs')
+    .send(add_blog)
+    .expect(401)
+    .expect('Content-Type', /application\/json/)
+
+  const response = await api.get('/api/blogs')
+  expect(response.body).toHaveLength(helper.initial_blogs.length)
+
+
+})
+
 
 test('deletion of a blog succeeds with status code 204 if id is valid', async () => {
   const blogs_at_start = await helper.blogs_in_db()
