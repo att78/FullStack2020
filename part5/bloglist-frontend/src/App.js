@@ -5,6 +5,7 @@ import loginService from './services/login'
 import Message from './components/Message'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -15,7 +16,6 @@ const App = () => {
   const [newUrl, setNewUrl] = useState('')
   const [newAuthor, setNewAuthor] = useState('')
   const [notification, setNotification] = useState(null)
-
 
 
   useEffect(() => {
@@ -126,15 +126,17 @@ const App = () => {
       <Message notification={notification} />
 
       <h2>blogs</h2>
-      <BlogForm
-        handleAuthor={handleAuthor}
-        handleHeader={handleHeader}
-        handleUrl={handleUrl}
-        addBlog={addBlog}
-        newAuthor={newAuthor}
-        newUrl={newUrl}
-        newHeader={newHeader}
-      />
+      <Togglable buttonLabel='add new blog'>
+        <BlogForm
+          handleAuthor={handleAuthor}
+          handleHeader={handleHeader}
+          handleUrl={handleUrl}
+          addBlog={addBlog}
+          newAuthor={newAuthor}
+          newUrl={newUrl}
+          newHeader={newHeader}
+        />
+      </Togglable>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
