@@ -31,12 +31,15 @@ const App = () => {
     }
   }, [])
 
+
+
   const handleLogin = async (event) => {
     event.preventDefault()
 
     try {
       const user = await loginService.login({
-        username, password,
+        username,
+        password,
       })
       window.localStorage.setItem(
         'loggedBlogappUser', JSON.stringify(user)
@@ -118,9 +121,17 @@ const App = () => {
       <h2>blogs</h2>
       {blogForm()}
 
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )}
+      {blogs
+        .sort((a, b) => b.likes - a.likes)
+        .map(blog =>
+          <Blog key={blog.id}
+            blog={blog}
+            blogs={blogs}
+            blogService={blogService}
+            user={user}
+            setBlogs={setBlogs}
+          />
+        )}
     </div>
   )
 }
