@@ -35,6 +35,7 @@ const Blog = ({ user, blog, blogs, blogService, setBlogs }) => {
   return (
     <div style={blogStyle} className='blog'>
       <div>Blog's name: {blog.title} Blog's writer: {blog.author}
+        <p>   </p>
         <button onClick={() => toggleVisibility()}>show/hide</button>
       </div>
       {visible ? (<div><p>Find blog from: {blog.url}</p>
