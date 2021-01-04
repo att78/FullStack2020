@@ -55,6 +55,7 @@ const BlogForm = ({ createBlog, setNotification }) => {
           <div>
             Header of the blog:
         <input
+              id='title'
               type="text"
               value={newHeader}
               onChange={handleHeader}
@@ -63,6 +64,7 @@ const BlogForm = ({ createBlog, setNotification }) => {
           <div>
             Author of the blog:
         <input
+              id='author'
               type="text"
               value={newAuthor}
               onChange={handleAuthor}
@@ -71,6 +73,7 @@ const BlogForm = ({ createBlog, setNotification }) => {
           <div>
             Blog url:
         <input
+              id='url'
               type="text"
               value={newUrl}
               onChange={handleUrl}

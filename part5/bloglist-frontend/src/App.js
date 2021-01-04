@@ -64,6 +64,8 @@ const App = () => {
   }
 
 
+
+
   const handlePassword = (event) => {
     setPassword(event.target.value)
   }
@@ -77,7 +79,7 @@ const App = () => {
     try {
       const savedBlog = await blogService.create(blogObject)
       blogs.concat(savedBlog)
-      setNotification('New blog added')
+      setNotification('A new blog was added.')
       setTimeout(() => {
         setNotification(null)
       }, 5000)
@@ -91,7 +93,7 @@ const App = () => {
   }
 
   const blogForm = () => (
-    <Togglable buttonLabel='add new Blog'>
+    <Togglable buttonLabel='add a new blog'>
       <BlogForm createBlog={addBlog} />
     </Togglable>
   )
@@ -130,6 +132,8 @@ const App = () => {
             blogService={blogService}
             user={user}
             setBlogs={setBlogs}
+            setNotification={setNotification}
+
           />
         )}
     </div>
